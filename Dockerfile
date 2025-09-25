@@ -1,6 +1,6 @@
 # ETAPA 1: Construir la aplicación
 # Usa una imagen de Maven para compilar tu código.
-FROM maven:3.9-eclipse-temurin-21 AS builder
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 
 # Establece el directorio de trabajo dentro de la imagen.
 WORKDIR /app
@@ -10,10 +10,10 @@ COPY pom.xml .
 COPY src ./src
 
 # Compila el proyecto y crea el JAR ejecutable.
-RUN mvn clean install
+RUN mvn clean install 
 
 # ETAPA 2: Crear la imagen final
-FROM eclipse-temurin:21-jre-jammy
+FROM eclipse-temurin:21-jre-alpine
 
 # Crea el directorio de la aplicación y define la aplicación a correr.
 WORKDIR /app
@@ -25,4 +25,4 @@ COPY --from=builder /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
 # Expone el puerto por defecto de tu aplicación.
-EXPOSE 8084
+EXPOSE 8085

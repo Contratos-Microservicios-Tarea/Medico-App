@@ -25,4 +25,4 @@ COPY --from=builder /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
 # Expone el puerto por defecto de tu aplicación.
-EXPOSE 8085
+EXPOSE 8084

@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.web.reactive.function.client.WebClientException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import java.util.Map;
 
@@ -74,9 +76,11 @@ public class PactApplicationTests {
 
         try {
             licensesService.createLicencias(request);
-        } catch (RuntimeException ex) {
+
+        } catch (WebClientResponseException.BadRequest ex) {
             // Aquí puedes verificar el mensaje de error si tu servicio lo lanza
-            assertEquals("INVALID_DAYS", ex.getMessage());
+            String responseBody = ex.getResponseBodyAsString();
+            assertEquals("{\"error\":\"INVALID_DAYS\"}", responseBody);
         }
     }
 
